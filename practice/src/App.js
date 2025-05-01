@@ -1,4 +1,6 @@
-import { Practice } from "./components/Practice";
+import Practice from "./components/Practice";
+
+
 function App() {
   return (
     <Practice />
