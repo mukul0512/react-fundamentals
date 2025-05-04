@@ -1,0 +1,243 @@
+* {
+  box-sizing: border-box;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f0f4f8;
+  height: 100%;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+  padding: 2rem;
+  gap: 0;
+  box-sizing: border-box;
+}
+
+.login-section,
+.signup-section {
+  background-color: white;
+  color: black;
+  padding: 2rem;
+  border-radius: 10px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  height: auto;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.login-section input[type="text"],
+.login-section input[type="email"],
+.login-section input[type="password"],
+.login-section .password-field input {
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.signup-section input[type="text"],
+.signup-section input[type="email"],
+.signup-section input[type="password"],
+.signup-section .password-field input {
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.input-error {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: -0.4rem;
+  margin-bottom: 0.8rem;
+}
+
+.password-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.view-icon {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.login-btn,
+.signup-btn,
+.learn-more {
+  background-color: #1c4532;
+  color: white;
+  padding: 0.6rem;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-btn:hover,
+.signup-btn:hover,
+.learn-more:hover {
+  background-color: #14532d;
+}
+
+.social-btn {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.google,
+.facebook {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+}
+
+.google:hover,
+.facebook:hover {
+  background-color: #e2e8f0;
+}
+
+.support-section {
+  background-color: #14532d;
+  color: white;
+  padding: 2rem;
+  border-radius: 10px;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.support-heading {
+  text-align: center;
+}
+
+.support-content {
+  background-color: white;
+  color: #14532d;
+  padding: 1rem;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.card-image {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 3rem;
+}
+
+.card-image img {
+  width: 200px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.learn-more {
+  background-color: #1c4532;
+  color: white;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  width: 30%;
+  float: left;
+}
+
+.earnings-box {
+  position: absolute;
+  bottom: 130px;
+  right: 3rem;
+  width: 30%;
+  background-color: white;
+  border-radius: 10px;
+  color: #14532d;
+  text-align: center;
+}
+
+.features-section {
+  background-color: #14532d;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.features-section h1 {
+  margin: 0.5rem 0;
+  font-size: 1.2rem;
+}
+
+.features-section p {
+  font-size: 0.9rem;
+  margin: 0 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    height: auto;
+    padding: 1rem;
+  }
+
+  .login-section,
+  .signup-section,
+  .support-section {
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+  }
+
+  .earnings-box {
+    position: static;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .learn-more {
+    width: 100%;
+    float: none;
+  }
+
+  .card-image {
+    justify-content: center;
+  }
+
+  .features-section p {
+    margin: 0.5rem;
+  }
+}
