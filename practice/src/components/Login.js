@@ -4,19 +4,26 @@ import "../index.css";
 
 const Login = () => {
     console.log("Login component rendered");
+
     const [showPassword, setShowPassword] = useState(false);
+    console.log("Initial showPassword:", showPassword);
+
     const [loginForm, setLoginForm] = useState({
         email: "",
         password: "",
         name: "",
     });
+    console.log("Initial loginForm:", loginForm);
 
     const [errors, setErrors] = useState({});
+    console.log("Initial errors:", errors);
 
     const formHandler = (e) => {
         const { name, value } = e.target;
         console.log(`Input changed: ${name} = ${value}`);
+
         setLoginForm({ ...loginForm, [name]: value });
+        console.log("Updated loginForm:", { ...loginForm, [name]: value });
     };
 
     const validate = () => {
@@ -26,16 +33,21 @@ const Login = () => {
 
         if (!loginForm.name.trim()) {
             newErrors.name = "Name is required";
+            console.log("Validation Error - name:", newErrors.name);
         }
 
         if (!loginForm.email.trim()) {
             newErrors.email = "Email is required";
-        } else if (!emailRegex.test(loginForm.email)) {
+            console.log("Validation Error - email:", newErrors.email);
+        }
+        else if (!emailRegex.test(loginForm.email)) {
             newErrors.email = "Enter a valid email";
+            console.log("Validation Error - email format:", newErrors.email);
         }
 
         if (!loginForm.password) {
             newErrors.password = "Password is required";
+            console.log("Validation Error - password:", newErrors.password);
         }
         console.log("Validation Errors:", newErrors);
         return newErrors;
@@ -45,6 +57,8 @@ const Login = () => {
         event.preventDefault();
         console.log("Form submitted");
         const validationErrors = validate();
+        console.log("Validation Results:", validationErrors);
+
         if (Object.keys(validationErrors).length > 0) {
             console.log("Form has errors, not submitting");
             setErrors(validationErrors);
