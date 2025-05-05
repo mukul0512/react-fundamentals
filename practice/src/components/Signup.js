@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "../index.css";
 
 const Signup = () => {
+    console.log("Signup component rendered");
     const [showPassword, setShowPassword] = useState(false);
     const [signupForm, setSignupForm] = useState({
         email: "",
@@ -14,10 +15,12 @@ const Signup = () => {
 
     const formHandler = (e) => {
         const { name, value } = e.target;
+        console.log(`Input changed: ${name} = ${value}`);
         setSignupForm({ ...signupForm, [name]: value });
     };
 
     const validate = () => {
+        console.log("Running validation...");
         const newErrors = {};
         const emailRegex = /^\S+@\S+\.\S+$/;
 
@@ -34,14 +37,16 @@ const Signup = () => {
         if (!signupForm.password) {
             newErrors.password = "Password is required";
         }
-
+        console.log("Validation Errors:", newErrors);
         return newErrors;
     };
 
     const submitHandler = (event) => {
         event.preventDefault();
+        console.log("Form submitted");
         const validationErrors = validate();
         if (Object.keys(validationErrors).length > 0) {
+            console.log("Form has errors, not submitting");
             setErrors(validationErrors);
             return;
         }
@@ -94,7 +99,10 @@ const Signup = () => {
                         />
                         <i
                             className={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'} view-icon`}
-                            onClick={() => setShowPassword(!showPassword)}
+                            onClick={() => {
+                                console.log("Toggle showPassword");
+                                setShowPassword(!showPassword);
+                            }}
                         ></i>
                     </div>
                     {errors.password && <div className="input-error">{errors.password}</div>}
