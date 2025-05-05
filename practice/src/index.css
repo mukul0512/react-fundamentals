@@ -9,14 +9,15 @@ html {
   font-family: Arial, sans-serif;
   background-color: #f0f4f8;
   height: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   overflow: hidden;
   padding: 2rem;
   gap: 0;
