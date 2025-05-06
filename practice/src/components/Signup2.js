@@ -1,30 +1,59 @@
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import "../index.css";
 
-const Signup = () => {
+const Signup2 = () => {
+    console.log("Signup component rendered");
     const [showPassword, setShowPassword] = useState(false);
-
-    const formik = useFormik({
-        initialValues: {
-            name: '',
-            email: '',
-            password: '',
-        },
-        validationSchema: Yup.object({
-            name: Yup.string().required('Name is required'),
-            email: Yup.string()
-                .email('Enter a valid email')
-                .required('Email is required'),
-            password: Yup.string().required('Password is required'),
-        }),
-        onSubmit: (values, { resetForm }) => {
-            console.log("Signup Success:", values);
-            resetForm();
-        },
+    const [signupForm, setSignupForm] = useState({
+        email: "",
+        password: "",
+        name: "",
     });
+
+    const [errors, setErrors] = useState({});
+
+    const formHandler = (e) => {
+        const { name, value } = e.target;
+        console.log(`Input changed: ${name} = ${value}`);
+        setSignupForm({ ...signupForm, [name]: value });
+    };
+
+    const validate = () => {
+        console.log("Running validation...");
+        const newErrors = {};
+        const emailRegex = /^\S+@\S+\.\S+$/;
+
+        if (!signupForm.name.trim()) {
+            newErrors.name = "Name is required";
+        }
+
+        if (!signupForm.email.trim()) {
+            newErrors.email = "Email is required";
+        } else if (!emailRegex.test(signupForm.email)) {
+            newErrors.email = "Enter a valid email";
+        }
+
+        if (!signupForm.password) {
+            newErrors.password = "Password is required";
+        }
+        console.log("Validation Errors:", newErrors);
+        return newErrors;
+    };
+
+    const submitHandler = (event) => {
+        event.preventDefault();
+        console.log("Form submitted");
+        const validationErrors = validate();
+        if (Object.keys(validationErrors).length > 0) {
+            console.log("Form has errors, not submitting");
+            setErrors(validationErrors);
+            return;
+        }
+
+        setErrors({});
+        console.log("signup Success:", signupForm);
+    };
 
     return (
         <div className="container">
@@ -35,48 +64,48 @@ const Signup = () => {
                     Already have an account? <Link to="/">Login here</Link>
                 </p>
 
-                <form onSubmit={formik.handleSubmit} noValidate>
+                <form onSubmit={submitHandler} noValidate>
                     <label htmlFor="name">Name</label>
                     <input
                         type="text"
-                        id="name"
                         name="name"
+                        value={signupForm.name}
+                        onChange={formHandler}
                         placeholder="Enter your name"
-                        {...formik.getFieldProps('name')}
+                        id="name"
                     />
-                    {formik.touched.name && formik.errors.name && (
-                        <div className="input-error">{formik.errors.name}</div>
-                    )}
+                    {errors.name && <div className="input-error">{errors.name}</div>}
 
                     <label htmlFor="email">E-mail</label>
                     <input
                         type="email"
-                        id="email"
                         name="email"
+                        value={signupForm.email}
+                        onChange={formHandler}
                         placeholder="example@gmail.com"
-                        {...formik.getFieldProps('email')}
+                        id="email"
                     />
-                    {formik.touched.email && formik.errors.email && (
-                        <div className="input-error">{formik.errors.email}</div>
-                    )}
+                    {errors.email && <div className="input-error">{errors.email}</div>}
 
                     <label htmlFor="password">Password</label>
                     <div className="password-field">
                         <input
                             type={showPassword ? "text" : "password"}
-                            id="password"
                             name="password"
+                            value={signupForm.password}
+                            onChange={formHandler}
                             placeholder="@#*%"
-                            {...formik.getFieldProps('password')}
+                            id="password"
                         />
                         <i
                             className={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'} view-icon`}
-                            onClick={() => setShowPassword(!showPassword)}
+                            onClick={() => {
+                                console.log("Toggle showPassword");
+                                setShowPassword(!showPassword);
+                            }}
                         ></i>
                     </div>
-                    {formik.touched.password && formik.errors.password && (
-                        <div className="input-error">{formik.errors.password}</div>
-                    )}
+                    {errors.password && <div className="input-error">{errors.password}</div>}
 
                     <div className="options">
                         <label><input type="checkbox" /> Remember me</label>
@@ -95,7 +124,10 @@ const Signup = () => {
                 <h1 className="support-heading">Support</h1>
                 <div className="support-content">
                     <h2>Reach financial Goals faster</h2>
-                    <p>Use your Venus card around the world with no hidden fees. Hold, transfer and spend money.</p>
+                    <p>
+                        Use your Venus card around the world with no hidden fees.
+                        Hold, transfer and spend money.
+                    </p>
                     <button className="learn-more">Learn more</button>
                     <div className="card-image">
                         <img
@@ -120,4 +152,4 @@ const Signup = () => {
     );
 };
 
-export default Signup;
+export default Signup2;
