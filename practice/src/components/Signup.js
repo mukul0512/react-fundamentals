@@ -84,7 +84,7 @@ const Signup = () => {
 
                     <button className="signup-btn" type="submit">Signup</button>
 
-                    <div className="or-divider">-----------------------------or-----------------------------</div>
+                    <div className="or-divider">-------------------------------------------------------------------or------------------------------------------------------</div>
 
                     <button className="social-btn google"><i className="fab fa-google"></i> Continue with Google</button>
                     <button className="social-btn facebook"><i className="fab fa-facebook"></i> Continue with Facebook</button>
