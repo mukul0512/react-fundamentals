@@ -16,6 +16,7 @@ html {
   align-items: center;
   height: 100vh;
   gap: 0;
+  flex-wrap: wrap;
 }
 
 .login-section,
@@ -26,23 +27,10 @@ html {
   padding: 0rem 6rem;
 }
 
-.login-section input[type="text"],
-.login-section input[type="email"],
-.login-section input[type="password"],
-.login-section .password-field input {
-  width: 100%;
-  padding: 0.6rem;
-  margin-top: 0.25rem;
-  margin-bottom: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-}
-
-.signup-section input[type="text"],
-.signup-section input[type="email"],
-.signup-section input[type="password"],
-.signup-section .password-field input {
+input[type="text"],
+input[type="email"],
+input[type="password"],
+.password-field input {
   width: 100%;
   padding: 0.6rem;
   margin-top: 0.25rem;
@@ -196,15 +184,12 @@ html {
 .earnings-box {
   width: 287px;
   height: 94px;
-  top: 530px;
-  left: 1054px;
   background-color: white;
   border-radius: 10px;
   color: #14532d;
   text-align: center;
-  float: inline-end;
   position: absolute;
-  margin: -180px 99px;
+  margin-left: 274px;
 }
 
 .features-section {
@@ -226,38 +211,63 @@ html {
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
-    height: auto;
-    padding: 1rem;
+    align-items: center;
   }
 
   .login-section,
   .signup-section,
   .support-section {
-    max-width: 100%;
-    width: 100%;
+    width: 90%;
+    padding: 1rem;
     margin-bottom: 1rem;
   }
 
-  .earnings-box {
-    position: static;
-    width: 100%;
-    margin-top: 1rem;
+  .login-section,
+  .signup-section {
+    padding: 0 1rem;
   }
 
   .learn-more {
     width: 100%;
-    float: none;
+    margin-top: 1rem;
   }
 
-  .divider-with-text {
-    position: static;
+  .card-image img {
+    width: 100%;
+    height: auto;
   }
 
-  .card-image {
-    justify-content: center;
+  .earnings-box {
+    width: 70%;
+    height: auto;
+    top: 85%;
+    left: 15%;
+    right: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-section,
+  .signup-section {
+    padding: 0 0.5rem;
   }
 
-  .features-section p {
-    margin: 0.5rem;
+  .social-button {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+
+  .divider-with-text span {
+    font-size: 0.9rem;
+  }
+
+  .learn-more {
+    width: 100%;
+  }
+
+  .earnings-box {
+    width: 80%;
+    top: 90%;
+    left: 10%;
   }
 }
