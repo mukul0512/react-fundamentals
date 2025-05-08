@@ -8,15 +8,14 @@ html {
   padding: 0;
   font-family: Arial, sans-serif;
   height: 100%;
+  overflow-x: hidden;
 }
 
 .container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  gap: 0;
   flex-wrap: wrap;
+  min-height: 100vh;
+  width: 100%;
 }
 
 .login-section,
@@ -140,8 +139,10 @@ input[type="password"],
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem 6rem 0 6rem;
-  height: 100vh;
+  padding: 1rem 6rem 2rem 6rem;
+  overflow-y: auto;
+  max-height: 100vh;
+  box-sizing: border-box;
 }
 
 .support-heading {
@@ -155,6 +156,8 @@ input[type="password"],
   border-radius: 10px;
   text-align: start;
   margin-bottom: 1rem;
+  width: 100%;
+  position: relative;
 }
 
 .card-image {
@@ -196,6 +199,7 @@ input[type="password"],
   background-color: #14532d;
   text-align: center;
   margin-top: 8rem;
+  width: 100%;
 }
 
 .features-section h1 {
@@ -208,41 +212,51 @@ input[type="password"],
   margin: 0 0.5rem;
 }
 
-@media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .login-section,
-  .signup-section,
+@media (max-width: 1390px) {
   .support-section {
-    width: 90%;
-    padding: 1rem;
-    margin-bottom: 1rem;
+    display: none;
   }
 
   .login-section,
   .signup-section {
-    padding: 0 1rem;
+    width: 100%;
+    padding: 1rem;
   }
 
   .learn-more {
-    width: 100%;
-    margin-top: 1rem;
+    display: none;
   }
 
   .card-image img {
-    width: 100%;
-    height: auto;
+    display: none;
   }
 
   .earnings-box {
-    width: 70%;
-    height: auto;
-    top: 85%;
-    left: 15%;
-    right: auto;
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .support-section {
+    display: none;
+  }
+
+  .login-section,
+  .signup-section {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .learn-more {
+    display: none;
+  }
+
+  .card-image img {
+    display: none;
+  }
+
+  .earnings-box {
+    display: none;
   }
 }
 
@@ -262,12 +276,10 @@ input[type="password"],
   }
 
   .learn-more {
-    width: 100%;
+    display: none;
   }
 
   .earnings-box {
-    width: 80%;
-    top: 0;
-    left: 10%;
+    display: none;
   }
 }
