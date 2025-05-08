@@ -32,11 +32,14 @@ const Login = () => {
         onSubmit: async (values, { resetForm }) => {
             try {
                 const response = await axios.post(loginAPI, values);
-                const { token } = response.data;
+                console.log("Full login response:", response.data);
+                const token = response.data.result?.token;
 
                 if (token) {
                     sessionStorage.setItem("authToken", token);
-                    console.log("Login successful. Token saved to sessionStorage");
+                    console.log("Login successful. Token saved to sessionStorage", token);
+                } else {
+                    console.warn("Token not found inside result:", response.data.result);
                 }
                 console.log("Login success", response.data);
                 resetForm();

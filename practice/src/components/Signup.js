@@ -38,18 +38,23 @@ const Signup = () => {
         onSubmit: async (values, { resetForm }) => {
             try {
                 const response = await axios.post(signupAPI, values);
-                const { token } = response.data;
+                console.log("Full signup response:", response.data);
+
+                const token = response.data.result?.token;
 
                 if (token) {
                     sessionStorage.setItem("authToken", token);
-                    console.log("Token saved to sessionStorage");
+                    console.log("Token saved to sessionStorage:", token);
+                } else {
+                    console.warn("Token not found inside result:", response.data.result);
                 }
-                console.log("Signup Success:", response.data);
+                console.log("Signup success", response.data);
                 resetForm();
             } catch (error) {
                 console.error("Signup failed:", error.response?.data || error.message);
+                alert("Invalid email or password");
             }
-        },
+        }
     });
 
     return (
