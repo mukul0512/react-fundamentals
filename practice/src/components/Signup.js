@@ -4,8 +4,11 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import "../index.css";
 import { FaGoogle, FaFacebookF } from 'react-icons/fa';
+import axios from "axios";
 
 const Signup = () => {
+    const signupAPI = "https://todo-backend-zwg4.onrender.com/signup";
+
     const [showPassword, setShowPassword] = useState(false);
 
     const formik = useFormik({
@@ -31,9 +34,21 @@ const Signup = () => {
                 .matches(/[@$!%*?&]/, "Password must contain at least one special character")
                 .required("Password is required"),
         }),
-        onSubmit: (values, { resetForm }) => {
-            console.log("Signup Success:", values);
-            resetForm();
+
+        onSubmit: async (values, { resetForm }) => {
+            try {
+                const response = await axios.post(signupAPI, values);
+                const { token } = response.data;
+
+                if (token) {
+                    sessionStorage.setItem("authToken", token);
+                    console.log("Token saved to sessionStorage");
+                }
+                console.log("Signup Success:", response.data);
+                resetForm();
+            } catch (error) {
+                console.error("Signup failed:", error.response?.data || error.message);
+            }
         },
     });
 
