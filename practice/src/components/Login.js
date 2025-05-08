@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import "../index.css";
@@ -8,6 +8,7 @@ import axios from "axios";
 
 const Login = () => {
     const loginAPI = "https://todo-backend-zwg4.onrender.com/login";
+    const navigate = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -33,19 +34,19 @@ const Login = () => {
             try {
                 const response = await axios.post(loginAPI, values);
                 console.log("Full login response:", response.data);
-                const token = response.data.result?.token;
+                const token = response.data.updatedUser.token;
 
                 if (token) {
                     sessionStorage.setItem("authToken", token);
                     console.log("Login successful. Token saved to sessionStorage", token);
+                    navigate("/home");
                 } else {
-                    console.warn("Token not found inside result:", response.data.result);
+                    console.warn("Token not found inside updatedUser:", response.data.updatedUser);
                 }
                 console.log("Login success", response.data);
                 resetForm();
             } catch (error) {
                 console.error("Login failed:", error.response?.data || error.message);
-                alert("Invalid email or password");
             }
         },
     });
@@ -82,8 +83,7 @@ const Login = () => {
                             {...formik.getFieldProps("password")}
                         />
                         <i
-                            className={`fa ${showPassword ? "fa-eye-slash" : "fa-eye"
-                                } view-icon`}
+                            className={`fa ${showPassword ? "fa-eye-slash" : "fa-eye"} view-icon`}
                             onClick={() => setShowPassword(!showPassword)}
                         ></i>
                     </div>

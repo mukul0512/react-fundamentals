@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import "../index.css";
@@ -8,6 +8,7 @@ import axios from "axios";
 
 const Signup = () => {
     const signupAPI = "https://todo-backend-zwg4.onrender.com/signup";
+    const navigate = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -45,6 +46,7 @@ const Signup = () => {
                 if (token) {
                     sessionStorage.setItem("authToken", token);
                     console.log("Token saved to sessionStorage:", token);
+                    navigate("/");
                 } else {
                     console.warn("Token not found inside result:", response.data.result);
                 }
@@ -52,7 +54,6 @@ const Signup = () => {
                 resetForm();
             } catch (error) {
                 console.error("Signup failed:", error.response?.data || error.message);
-                alert("Invalid email or password");
             }
         }
     });
@@ -101,8 +102,7 @@ const Signup = () => {
                             {...formik.getFieldProps("password")}
                         />
                         <i
-                            className={`fa ${showPassword ? "fa-eye-slash" : "fa-eye"
-                                } view-icon`}
+                            className={`fa ${showPassword ? "fa-eye-slash" : "fa-eye"} view-icon`}
                             onClick={() => setShowPassword(!showPassword)}
                         ></i>
                     </div>
