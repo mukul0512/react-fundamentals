@@ -16,7 +16,7 @@ function TodoForm({ addTodo }) {
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 className="todo-input"
-                placeholder="What is the task today?" />
+                placeholder="Enter your todo" />
             <button type="submit" className="todo-btn">Add Task</button>
         </form>
     )
