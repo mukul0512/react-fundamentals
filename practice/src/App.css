@@ -68,7 +68,6 @@ h1 {
 }
 
 .todo-btn {
-  float: inline-end;
   background: var(--green-color);
   color: var(--white-color);
   border: none;
