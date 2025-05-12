@@ -13,7 +13,7 @@ function TodoWrapper() {
             ...todos, { id: uuidv4(), task: todo, completed: false, isEditing: false },
         ]);
     }
-    console.log("todos", todos);
+    // console.log("todos", todos);
 
     // Delete Todo
     const deleteTodo = (id) => setTodos(todos.filter((todo) => todo.id !== id));
