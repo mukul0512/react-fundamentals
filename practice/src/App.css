@@ -9,19 +9,19 @@
 
 /*===== Variable Define =====*/
 :root {
-  --primary-color: #1b2e35;
-  --secondry-color: #8e5093;
+  --primary-color: #172842;
+  --secondry-color: #ccbed7;
+  --green-color: #006400;
+  --red-color: #ff0000;
   --white-color: #fff;
   --gray-color: #ffffffa1;
+  --input-color: #ffffff33;
   --black-color: #0a0a0a;
 }
 
 body {
   width: 100%;
-  min-height: 500px;
   height: 100vh;
-  background: url("Images/bg-1.jpg") no-repeat center;
-  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,15 +35,15 @@ h1 {
   color: var(--white-color);
   margin-bottom: 0.5rem;
   font-size: 1.75rem;
+  text-align: center;
 }
 
 .TodoWrapper {
   background: var(--primary-color);
   padding: 2rem;
   border-radius: 5px;
-  -webkit-box-shadow: 0 0 1.0714rem rgba(0, 0, 0, 0.1);
-  box-shadow: 0 0 1.0714rem rgba(0, 0, 0, 0.1);
-  max-height: 30rem;
+  max-height: 50rem;
+  width: 50rem;
   overflow-y: auto;
 }
 
@@ -54,12 +54,12 @@ h1 {
 
 .todo-input {
   outline: none;
-  background: none;
+  background: var(--input-color);
   border: 1px solid var(--secondry-color);
   padding: 0.5rem 1rem;
   margin-top: 1rem;
   margin-bottom: 2rem;
-  width: 300px;
+  width: 100%;
   color: var(--white-color);
 }
 
@@ -68,7 +68,7 @@ h1 {
 }
 
 .todo-btn {
-  background: var(--secondry-color);
+  background: var(--green-color);
   color: var(--white-color);
   border: none;
   padding: 0.55rem;
@@ -80,7 +80,7 @@ h1 {
   justify-content: space-between;
   align-items: center;
   background: var(--secondry-color);
-  color: var(--white-color);
+  color: var(--red-color);
   padding: 0.75rem 1rem;
   border-radius: 5px;
   margin-bottom: 1rem;
@@ -91,12 +91,12 @@ h1 {
 }
 
 .incompleted {
-  color: var(--white-color);
+  color: var(--black-color);
   cursor: pointer;
 }
 
 .completed {
-  color: var(--gray-color);
+  color: var(--white-color);
   text-decoration: line-through;
   cursor: pointer;
 }

@@ -15,9 +15,9 @@ function EditTodoForm({ editTodo, task }) {
                 onChange={(e) => setValue(e.target.value)}
                 className="todo-input"
                 placeholder="Update Task..." />
-            <button type="submit" className="todo-btn">Add Task</button>
+            <button type="submit" className="todo-btn">Save</button>
         </form>
     )
 }
 
-export default EditTodoForm
+export default EditTodoForm;
