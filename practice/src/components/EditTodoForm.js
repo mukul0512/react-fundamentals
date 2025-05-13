@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-function EditTodoForm({ editTodo, task }) {
-    const [value, setValue] = useState(task.task);
+function EditTodoForm({ editTodo, todo }) {
+    const [value, setValue] = useState(todo.title);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        editTodo(value, task.id)
+        editTodo(value, todo)
     }
     return (
         <form onSubmit={handleSubmit} className="TodoForm">

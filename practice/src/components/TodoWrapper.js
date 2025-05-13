@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import TodoForm from './TodoForm';
-import { v4 as uuidv4 } from "uuid";
 import EditTodoForm from './EditTodoForm';
 import Todo from './Todo';
-import axios from 'axios';
+import AxiosClient from './AxiosClient';
+import { ClipLoader } from "react-spinners";
 
 function TodoWrapper() {
     const [todos, setTodos] = useState([]);
@@ -19,10 +19,12 @@ function TodoWrapper() {
     const fetchTodos = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('/api/todos', {
+            const response = await AxiosClient.get('/todo/todos', {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            setTodos(response.data);
+            console.log(response.data.data)
+            const finalTodos = todos.map((todo) => ({ ...todo, isEditing: false }));
+            setTodos(finalTodos);
         } catch (err) {
             setError("Failed to fetch todos.");
             console.error(err);
@@ -32,52 +34,74 @@ function TodoWrapper() {
     };
 
     // Add Todo
-    const addTodo = async (todo) => {
+    const addTodo = async (title) => {
+        setLoading(true)
         try {
-            const response = await axios.post('/api/todos', { task: todo }, {
+            const response = await AxiosClient.post('/todo/add', {
+                "title": title,
+                "description": ""
+            }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            setTodos([...todos, response.data]);
+            // console.log(response);
+            setTodos([...todos, response.data.newTodo]);
         } catch (err) {
             setError("Failed to add todo.");
             console.error(err);
+        }
+        finally {
+            setLoading(false)
         }
     };
 
     // Delete Todo
     const deleteTodo = async (id) => {
+        setLoading(true)
         try {
-            await axios.delete(`/api/todos/${id}`, {
-                headers: { Authorization: `Bearer ${token}` }
+            await AxiosClient.delete('/todo/delete', {
+                headers: { Authorization: `Bearer ${token}` },
+                data: {
+                    "todoId": id
+                }
             });
-            setTodos(todos.filter((todo) => todo.id !== id));
+            console.log('deleted TODO')
+            const newTodos = todos.filter((todo) => todo._id !== id)
+            setTodos(newTodos);
         } catch (err) {
             setError("Failed to delete todo.");
             console.error(err);
         }
+        finally {
+            setLoading(false)
+        }
     };
 
     // Toggle Complete Todo
-    const toggleComplete = async (id) => {
-        const todo = todos.find((todo) => todo.id === id);
+    const toggleComplete = async (todo) => {
+        setLoading(true)
         try {
-            const response = await axios.put(`/api/todos/${id}`, { completed: !todo.completed }, {
+            const response = await AxiosClient.put(`/todo/update`, { ...todo, todoId: todo._id, completed: !todo.completed }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            setTodos(todos.map((todo) => (todo.id === id ? response.data : todo)));
+            console.log(response)
+
+            setTodos(todos.map((todoItem) => (todoItem._id === todo._id ? response.data.updatedTodo : todoItem)));
         } catch (err) {
             setError("Failed to toggle completion.");
             console.error(err);
         }
+        finally {
+            setLoading(false)
+        }
     };
 
-    // Edit Task Todo
-    const editTask = async (task, id) => {
+    // Update Todo Todo
+    const editTodo = async (newTitle, todo) => {
         try {
-            const response = await axios.put(`/api/todos/${id}`, { task }, {
+            const response = await AxiosClient.put(`/todo/update`, { todo }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            setTodos(todos.map((todo) => (todo.id === id ? response.data : todo)));
+            setTodos(todos.map((todo) => (todo.id === todo._id ? response.data : todo)));
         } catch (err) {
             setError("Failed to update todo.");
             console.error(err);
@@ -88,22 +112,24 @@ function TodoWrapper() {
         <div className="TodoWrapper">
             <h1>Todo List</h1>
             <TodoForm addTodo={addTodo} />
-            {loading && <p>Loading...</p>}
+            {loading &&
+                <ClipLoader
+                    loading={loading}
+                    size={150}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                />}
             {error && <p>{error}</p>}
 
-            {/* Display Todos */}
             {todos.map((todo) =>
-                todo.isEditing ? (
-                    <EditTodoForm editTodo={editTask} task={todo} key={todo.id} />
-                ) : (
+                todo.isEditing ?
+                    <EditTodoForm editTodo={editTodo} todo={todo} /> :
                     <Todo
-                        key={todo.id}
-                        task={todo}
+                        todo={todo}
                         deleteTodo={deleteTodo}
-                        editTodo={editTask}
+                        enableEditing={(id) => setTodos(todos.map((todoItem) => todoItem._id === id ? { todoItem, isEditing: true } : todoItem))}
                         toggleComplete={toggleComplete}
                     />
-                )
             )}
         </div>
     );

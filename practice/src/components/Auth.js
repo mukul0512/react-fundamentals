@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
+import AxiosClient from './AxiosClient';
 
 function Auth({ onLoginSuccess }) {
     const [email, setEmail] = useState('');
@@ -8,7 +8,7 @@ function Auth({ onLoginSuccess }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/api/login', { email, password });
+            const response = await AxiosClient.post('/login', { email, password });
             sessionStorage.setItem('authToken', response.data.token);
             onLoginSuccess();
         } catch (err) {

@@ -1,4 +1,3 @@
-import React from 'react';
 import TodoWrapper from './TodoWrapper';
 
 function Home({ onLogout }) {
