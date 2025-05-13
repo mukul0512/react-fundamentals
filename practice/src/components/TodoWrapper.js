@@ -98,7 +98,7 @@ function TodoWrapper() {
     // Update Todo Todo
     const editTodo = async (newTitle, todo) => {
         try {
-            const response = await AxiosClient.put(`/todo/update`, { newTitle, todo }, {
+            const response = await AxiosClient.put(`/todo/update`, { todo }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setTodos(todos.map((todo) => (todo.id === todo._id ? response.data : todo)));
