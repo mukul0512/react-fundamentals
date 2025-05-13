@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import AxiosClient from './AxiosClient';
+import AxiosClient from '../Services/AxiosClient';
 
 function Auth({ onLoginSuccess }) {
     const [email, setEmail] = useState('');

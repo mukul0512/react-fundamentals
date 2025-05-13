@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import "../index.css";
 import { FaGoogle, FaFacebookF } from "react-icons/fa";
-import axios from "axios";
+import AxiosClient from "../Services/AxiosClient";
 
 const AuthForm = ({ type }) => {
     const isLogin = type === "login";
     const navigate = useNavigate();
-    const apiURL = isLogin
-        ? "https://todo-backend-zwg4.onrender.com/login"
-        : "https://todo-backend-zwg4.onrender.com/signup";
+    const apiURLPath = isLogin
+        ? "/login"
+        : "/signup";
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -45,14 +45,14 @@ const AuthForm = ({ type }) => {
                 const payload = isLogin
                     ? { email: values.email, password: values.password }
                     : values;
-                const response = await axios.post(apiURL, payload);
+                const response = await AxiosClient.post(apiURLPath, payload);
                 const token = isLogin
                     ? response.data.updatedUser.token
                     : response.data.result?.token;
 
                 if (token) {
                     sessionStorage.setItem("authToken", token);
-                    navigate(isLogin ? "/home" : "/");
+                    navigate("/home");
                 }
                 resetForm();
             } catch (error) {

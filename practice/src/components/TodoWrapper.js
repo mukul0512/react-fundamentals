@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import TodoForm from './TodoForm';
 import EditTodoForm from './EditTodoForm';
 import Todo from './Todo';
-import AxiosClient from './AxiosClient';
+import AxiosClient from '../Services/AxiosClient';
 import { ClipLoader } from "react-spinners";
 
 function TodoWrapper() {

@@ -1,6 +1,6 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import AuthForm from "./components/AuthForm";
+import AuthForm from "./Authentication/AuthForm";
 import Home from "./components/Home";
 import { useEffect, useState } from "react";
 
