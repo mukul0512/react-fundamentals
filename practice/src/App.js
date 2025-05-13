@@ -1,9 +1,8 @@
-import './App.css';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
-import { useEffect, useState } from "react";
+import "./App.css";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import AuthForm from "./components/AuthForm";
 import Home from "./components/Home";
+import { useEffect, useState } from "react";
 
 const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -20,18 +19,15 @@ const useAuth = () => {
 
 const PrivateRoute = ({ element }) => {
   const isAuthenticated = useAuth();
-  return isAuthenticated ? element : <Login />;
+  return isAuthenticated ? element : <Navigate to="/home" />;
 };
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-
-        {/* Private Routes */}
+        <Route path="/" element={<AuthForm type="login" />} />
+        <Route path="/signup" element={<AuthForm type="signup" />} />
         <Route path="/home" element={<PrivateRoute element={<Home />} />} />
       </Routes>
     </Router>

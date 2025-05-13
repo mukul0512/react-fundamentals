@@ -1,12 +1,13 @@
-import React from 'react'
-import TodoWrapper from './TodoWrapper'
+import React from 'react';
+import TodoWrapper from './TodoWrapper';
 
-function Home() {
+function Home({ onLogout }) {
     return (
-        <>
+        <div>
             <TodoWrapper />
-        </>
-    )
+            <button onClick={onLogout}>Logout</button>
+        </div>
+    );
 }
 
-export default Home
+export default Home;
