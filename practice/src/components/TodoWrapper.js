@@ -78,40 +78,39 @@ function TodoWrapper() {
         }
     };
 
-    // Toggle Complete Todo
-    const toggleComplete = async (todo) => {
-        setLoading(true)
+    // updateTodo
+    const updateTodoHandler = async (updates, todo, afterUpdate = (t) => t) => {
+        setLoading(true);
         try {
-            const response = await AxiosClient.put(`/todo/update`, { ...todo, todoId: todo._id, completed: !todo.completed }, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            console.log("updatedTodo when Toggle ", response)
-            setTodos(todos.map((todoItem) => (todoItem._id === todo._id ? response.data.updatedTodo : todoItem)));
+            const response = await AxiosClient.put(
+                `/todo/update`,
+                { ...todo, ...updates, todoId: todo._id },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            const updated = afterUpdate(response.data.updatedTodo);
+            setTodos(todos.map((todoItem) =>
+                todoItem._id === todo._id ? updated : todoItem
+            ));
         } catch (err) {
-            setError("Failed to toggle completion.");
+            setError("Failed to update todo.");
             console.error(err);
-        }
-        finally {
-            setLoading(false)
+        } finally {
+            setLoading(false);
         }
     };
 
+
+    // Toggle Complete Todo
+    const toggleComplete = (todo) => {
+        updateTodoHandler({ completed: !todo.completed }, todo);
+    };
+
     // Update Todo
-    const editTodo = async (newTitle, todo) => {
-        setLoading(true)
-        try {
-            const response = await AxiosClient.put(`/todo/update`, { ...todo, 'title': newTitle, 'todoId': todo._id }, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            console.log('updated object when editTodo', response)
-            setTodos(todos.map((todoItem) => (todoItem._id === todo._id ? { ...response.data.updatedTodo, 'isEditing': false } : todoItem)));
-        } catch (err) {
-            setError("Failed to update todo.");
-            alert(err)
-            console.error(err);
-        } finally {
-            setLoading(false)
-        }
+    const editTodo = (newTitle, todo) => {
+        updateTodoHandler({ title: newTitle }, todo, (updated) => ({
+            ...updated,
+            isEditing: false,
+        }));
     };
 
     return (
