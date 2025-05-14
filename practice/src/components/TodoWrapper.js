@@ -14,6 +14,7 @@ function TodoWrapper() {
 
     useEffect(() => {
         fetchTodos();
+        // eslint-disable-next-line
     }, []);
 
     const fetchTodos = async () => {
