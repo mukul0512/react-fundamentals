@@ -22,8 +22,11 @@ function TodoWrapper() {
             const response = await AxiosClient.get('/todo/todos', {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            console.log(response.data.data)
-            const finalTodos = todos.map((todo) => ({ ...todo, isEditing: false }));
+            // console.log(response.data.data)
+            const receivedTodos = response.data.data;
+            const finalTodos = receivedTodos.map((todo) => ({ ...todo, isEditing: false }));
+            // console.log('updated Todos')
+            console.log(finalTodos)
             setTodos(finalTodos);
         } catch (err) {
             setError("Failed to fetch todos.");
@@ -97,14 +100,20 @@ function TodoWrapper() {
 
     // Update Todo Todo
     const editTodo = async (newTitle, todo) => {
+        setLoading(true)
         try {
-            const response = await AxiosClient.put(`/todo/update`, { todo }, {
+            const response = await AxiosClient.put(`/todo/update`, { ...todo, 'title': newTitle, 'todoId': todo._id }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            setTodos(todos.map((todo) => (todo.id === todo._id ? response.data : todo)));
+            console.log('updated object')
+            console.log(response.data)
+            setTodos(todos.map((todoItem) => (todoItem._id === todo._id ? { ...response.data.updatedTodo, 'isEditing': false } : todoItem)));
         } catch (err) {
             setError("Failed to update todo.");
+            alert(err)
             console.error(err);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -127,7 +136,7 @@ function TodoWrapper() {
                     <Todo
                         todo={todo}
                         deleteTodo={deleteTodo}
-                        enableEditing={(id) => setTodos(todos.map((todoItem) => todoItem._id === id ? { todoItem, isEditing: true } : todoItem))}
+                        enableEditing={(id) => setTodos(todos.map((todoItem) => todoItem._id === id ? { ...todoItem, 'isEditing': true } : todoItem))}
                         toggleComplete={toggleComplete}
                     />
             )}
