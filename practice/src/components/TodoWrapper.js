@@ -36,12 +36,12 @@ function TodoWrapper() {
     };
 
     // Add Todo
-    const addTodo = async (title, description) => {
+    const addTodo = async (title) => {
         setLoading(true)
         try {
             const response = await AxiosClient.post('/todo/add', {
                 "title": title,
-                "description": description
+                "description": ""
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
@@ -87,7 +87,10 @@ function TodoWrapper() {
                 { ...todo, ...updates, todoId: todo._id },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
+            // console.log(response);
             const updated = afterUpdate(response.data.updatedTodo);
+            console.log("updatedTodo is ", updated);
+
             setTodos(todos.map((todoItem) =>
                 todoItem._id === todo._id ? updated : todoItem
             ));
@@ -98,7 +101,6 @@ function TodoWrapper() {
             setLoading(false);
         }
     };
-
 
     // Toggle Complete Todo
     const toggleComplete = (todo) => {
