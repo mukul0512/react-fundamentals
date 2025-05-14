@@ -22,11 +22,10 @@ function TodoWrapper() {
             const response = await AxiosClient.get('/todo/todos', {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            // console.log(response.data.data)
+            // console.log(response)
             const receivedTodos = response.data.data;
             const finalTodos = receivedTodos.map((todo) => ({ ...todo, isEditing: false }));
-            // console.log('updated Todos')
-            console.log(finalTodos)
+            console.log('Todo list after fetching from backend', finalTodos)
             setTodos(finalTodos);
         } catch (err) {
             setError("Failed to fetch todos.");
@@ -46,7 +45,7 @@ function TodoWrapper() {
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            // console.log(response);
+            console.log("newTodo after added", response);
             setTodos([...todos, response.data.newTodo]);
         } catch (err) {
             setError("Failed to add todo.");
@@ -67,8 +66,8 @@ function TodoWrapper() {
                     "todoId": id
                 }
             });
-            console.log('deleted TODO')
             const newTodos = todos.filter((todo) => todo._id !== id)
+            console.log('newTodos after deleted', newTodos)
             setTodos(newTodos);
         } catch (err) {
             setError("Failed to delete todo.");
@@ -86,8 +85,7 @@ function TodoWrapper() {
             const response = await AxiosClient.put(`/todo/update`, { ...todo, todoId: todo._id, completed: !todo.completed }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            console.log(response)
-
+            console.log("updatedTodo when Toggle ", response)
             setTodos(todos.map((todoItem) => (todoItem._id === todo._id ? response.data.updatedTodo : todoItem)));
         } catch (err) {
             setError("Failed to toggle completion.");
@@ -98,15 +96,14 @@ function TodoWrapper() {
         }
     };
 
-    // Update Todo Todo
+    // Update Todo
     const editTodo = async (newTitle, todo) => {
         setLoading(true)
         try {
             const response = await AxiosClient.put(`/todo/update`, { ...todo, 'title': newTitle, 'todoId': todo._id }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            console.log('updated object')
-            console.log(response.data)
+            console.log('updated object when editTodo', response)
             setTodos(todos.map((todoItem) => (todoItem._id === todo._id ? { ...response.data.updatedTodo, 'isEditing': false } : todoItem)));
         } catch (err) {
             setError("Failed to update todo.");
