@@ -2,12 +2,15 @@ import { useState } from 'react';
 
 function TodoForm({ addTodo }) {
     const [value, setValue] = useState("");
+    const [description, setDescription] = useState("");
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (value) {
-            addTodo(value);
+            addTodo(value, description);
             setValue("");
+            setDescription("");
         }
     };
 
@@ -19,7 +22,14 @@ function TodoForm({ addTodo }) {
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                     className="todo-input"
-                    placeholder="Enter your todo"
+                    placeholder="Enter your todo title"
+                />
+                <input
+                    type="text"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="todo-input"
+                    placeholder="Enter your todo description"
                 />
                 <button type="submit" className="todo-btn">Add</button>
             </div>
