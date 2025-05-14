@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import AuthForm from "./Authentication/AuthForm";
 import Home from "./components/Home";
 import { useEffect, useState } from "react";
+/** Hello Mukul how are you */
 
 const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
