@@ -36,12 +36,12 @@ function TodoWrapper() {
     };
 
     // Add Todo
-    const addTodo = async (title) => {
+    const addTodo = async (title, description) => {
         setLoading(true)
         try {
             const response = await AxiosClient.post('/todo/add', {
                 "title": title,
-                "description": ""
+                "description": description
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
