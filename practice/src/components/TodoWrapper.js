@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-// import TodoForm from './TodoForm';
-import EditTodoForm from './EditTodoForm';
 import Todo from './Todo';
 import AxiosClient from '../Services/AxiosClient';
 import { ClipLoader } from "react-spinners";
@@ -123,30 +121,37 @@ function TodoWrapper() {
     };
 
     return (
-        <div className="TodoWrapper">
+        <div className="TodoWrapper" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <h1>Todo List</h1>
             <AddTodoModal showModal={showModal} closeModal={closeModal} addTodo={addTodo} />
-            {/* <TodoForm addTodo={addTodo} /> */}
-            {loading &&
+            {
+                todos.length === 0 &&
+                <div>
+                    <h2 style={{ color: 'white' }}> There is no TODO available</h2>
+                </div>
+            }
+            {loading ?
                 <ClipLoader
                     loading={loading}
-                    size={150}
+                    size={100}
                     aria-label="Loading Spinner"
                     data-testid="loader"
-                />}
-            {error && <p>{error}</p>}
-
-            {todos.map((todo) =>
-                <Todo
-                    todo={todo}
-                    deleteTodo={deleteTodo}
-                    enableEditing={(id) => setTodos(todos.map((todoItem) => todoItem._id === id ? { ...todoItem, 'isEditing': true } : todoItem))}
-                    toggleComplete={toggleComplete}
-                />
-
-            )}
-            <button onClick={() => setShowModal(true)} className="todo-btn">Add</button>
-        </div>
+                    color='white'
+                /> :
+                < div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                    {todos.map((todo) =>
+                        <Todo
+                            todo={todo}
+                            deleteTodo={deleteTodo}
+                            enableEditing={(id) => setTodos(todos.map((todoItem) => todoItem._id === id ? { ...todoItem, 'isEditing': true } : todoItem))}
+                            toggleComplete={toggleComplete}
+                        />
+                    )}
+                    <div style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
+                        <button onClick={() => setShowModal(true)} className="todo-btn">Add</button>
+                    </div>
+                </div>}
+        </div >
     );
 }
 

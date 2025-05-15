@@ -17,6 +17,7 @@ function AddTodoModal({ showModal, closeModal, addTodo }) {
         }),
         onSubmit: (values) => {
             addTodo(values.title, values.description);
+            formik.resetForm()
             closeModal();
         }
     });
@@ -28,7 +29,10 @@ function AddTodoModal({ showModal, closeModal, addTodo }) {
             <div className="modal-content">
                 <div className="modal-header">
                     <h2>Add Your Todo</h2>
-                    <FontAwesomeIcon icon={faXmark} className="close-icon" onClick={closeModal} />
+                    <FontAwesomeIcon icon={faXmark} className="close-icon" onClick={() => {
+                        formik.resetForm()
+                        closeModal()
+                    }} />
                 </div>
                 <form onSubmit={formik.handleSubmit}>
                     <div className="input-wrapper">
@@ -61,7 +65,10 @@ function AddTodoModal({ showModal, closeModal, addTodo }) {
                         ) : null}
                     </div>
                     <div className="modal-actions">
-                        <button type="button" className="cancel-btn" onClick={closeModal}>Cancel</button>
+                        <button type="button" className="cancel-btn" onClick={() => {
+                            formik.resetForm()
+                            closeModal()
+                        }}>Cancel</button>
                         <button type="submit" className="confirm-btn">Confirm</button>
                     </div>
                 </form>
