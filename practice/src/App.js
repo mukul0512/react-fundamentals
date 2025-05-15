@@ -18,6 +18,10 @@ const useAuth = () => {
   return isAuthenticated;
 };
 
+const onLogout = () => {
+  sessionStorage.clear()
+}
+
 const PrivateRoute = ({ element }) => {
   const isAuthenticated = useAuth();
   return isAuthenticated ? element : <Navigate to="/home" />;
@@ -29,7 +33,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<AuthForm type="login" />} />
         <Route path="/signup" element={<AuthForm type="signup" />} />
-        <Route path="/home" element={<PrivateRoute element={<Home />} />} />
+        <Route path="/home" element={<PrivateRoute element={<Home onLogout={onLogout} />} />} />
       </Routes>
     </Router>
   );

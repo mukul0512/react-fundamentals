@@ -42,6 +42,7 @@ function TodoWrapper() {
     // Add Todo
     const addTodo = async (title, description) => {
         setLoading(true)
+        console.log('Token', token)
         try {
             const response = await AxiosClient.post('/todo/add', {
                 "title": title,
