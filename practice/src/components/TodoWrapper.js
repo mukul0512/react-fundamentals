@@ -8,8 +8,8 @@ import ConfirmationDialog from './ConfirmationDialog';
 function TodoWrapper() {
     const [todos, setTodos] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [setError] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [selectedTodoId, setSelectedTodoId] = useState(null);
     // Property - if `true`: will render Confirmation dialog. 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -32,8 +32,8 @@ function TodoWrapper() {
             console.log('Todo list after fetching from backend', finalTodos)
             setTodos(finalTodos);
         } catch (err) {
-            setError("Failed to fetch todos.");
             console.error(err);
+            alert(err)
         } finally {
             setLoading(false);
         }
@@ -52,7 +52,7 @@ function TodoWrapper() {
             console.log("newTodo after added", response);
             setTodos([...todos, response.data.newTodo]);
         } catch (err) {
-            setError("Failed to add todo.");
+            alert(err);
             console.error(err);
         }
         finally {
@@ -65,24 +65,32 @@ function TodoWrapper() {
     };
 
     const showDeleteConfirmationModel = (id) => {
+        setSelectedTodoId(id)
+        console.log("showing ", id);
+
         setShowDeleteModal(true)
     }
 
+    const closeDeleteConfirmationModel = () => {
+        setSelectedTodoId(null)
+        setShowDeleteModal(false)
+    }
+
     // Delete Todo
-    const deleteTodo = async (id) => {
+    const deleteTodo = async () => {
         setLoading(true)
         try {
             await AxiosClient.delete('/todo/delete', {
                 headers: { Authorization: `Bearer ${token}` },
                 data: {
-                    "todoId": id
+                    "todoId": selectedTodoId
                 }
             });
-            const newTodos = todos.filter((todo) => todo._id !== id)
+            const newTodos = todos.filter((todo) => todo._id !== selectedTodoId)
             console.log('newTodos after deleted', newTodos)
             setTodos(newTodos);
         } catch (err) {
-            setError("Failed to delete todo.");
+            alert(err)
             console.error(err);
         }
         finally {
@@ -107,7 +115,7 @@ function TodoWrapper() {
                 todoItem._id === todo._id ? updated : todoItem
             ));
         } catch (err) {
-            setError("Failed to update todo.");
+            alert(err)
             console.error(err);
         } finally {
             setLoading(false);
@@ -134,7 +142,17 @@ function TodoWrapper() {
                 <AddTodoModal showModal={showModal} closeModal={closeModal} addTodo={addTodo} />
                 {
                     showDeleteModal &&
-                    <ConfirmationDialog />
+                    <ConfirmationDialog
+                        title="Confirm Delete"
+                        message="Are you sure you want to delete this todo?"
+                        primaryBtnTitle="Delete"
+                        secondaryBtnTitle="Cancel"
+                        closeModal={closeDeleteConfirmationModel}
+                        confirmAction={() => {
+                            deleteTodo()
+                            closeDeleteConfirmationModel()
+                        }}
+                    />
                 }
                 {
                     todos.length === 0 &&

@@ -1,25 +1,25 @@
 import "../App.css";
-const ConfirmationDialog = () => {
+const ConfirmationDialog = ({ title, message, primaryBtnTitle, secondaryBtnTitle, closeModal, confirmAction }) => {
     return (
 
         <div style={{ backgroundColor: 'var(--overlay-color)', width: '100%', height: '100%', display: 'flex', position: 'absolute', justifyContent: 'center', alignItems: 'center', top: 0 }}>
             <div style={styles.container}>
                 <div style={styles.closeBtnContainer}>
-                    <button style={styles.closeBtn}>X</button>
+                    <button onClick={closeModal} style={styles.closeBtn}>X</button>
                 </div>
 
                 <div style={styles.content}>
                     <div style={styles.title}>
-                        <h3>Title</h3>
+                        <h3>{title}</h3>
                     </div>
                     <div style={styles.message}>
-                        <p>Are you sure you want to delete this todo?</p>
+                        <p>{message}</p>
                     </div>
                 </div>
 
                 <div style={styles.actionBtns}>
-                    <button style={styles.secondaryBtn}>No</button>
-                    <button style={styles.primaryBtn}>Yes</button>
+                    <button onClick={closeModal} style={styles.secondaryBtn}>{secondaryBtnTitle}</button>
+                    <button onClick={confirmAction} style={styles.primaryBtn}>{primaryBtnTitle} </button>
                 </div>
             </div >
         </div>
