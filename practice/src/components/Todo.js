@@ -14,6 +14,7 @@ function Todo({ todo, deleteTodo, enableEditing, toggleComplete }) {
                 <FontAwesomeIcon style={{ ...styles.actionButtonStyle, color: 'red' }} className="delete-icon" icon={faTrash} onClick={() => deleteTodo(todo._id)} />
             </div>
         </div>
+
     )
 }
 

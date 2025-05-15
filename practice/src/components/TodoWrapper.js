@@ -128,41 +128,43 @@ function TodoWrapper() {
     };
 
     return (
-        <div className="TodoWrapper" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <h1>Todo List</h1>
-            <AddTodoModal showModal={showModal} closeModal={closeModal} addTodo={addTodo} />
-            {
-                showDeleteModal &&
-                <ConfirmationDialog />
-            }
-            {
-                todos.length === 0 &&
-                <div>
-                    <h2 style={{ color: 'white' }}> There is no TODO available</h2>
-                </div>
-            }
-            {loading ?
-                <ClipLoader
-                    loading={loading}
-                    size={100}
-                    aria-label="Loading Spinner"
-                    data-testid="loader"
-                    color='white'
-                /> :
-                < div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-                    {todos.map((todo) =>
-                        <Todo
-                            todo={todo}
-                            deleteTodo={showDeleteConfirmationModel}
-                            enableEditing={(id) => setTodos(todos.map((todoItem) => todoItem._id === id ? { ...todoItem, 'isEditing': true } : todoItem))}
-                            toggleComplete={toggleComplete}
-                        />
-                    )}
-                    <div style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
-                        <button onClick={() => setShowModal(true)} className="todo-btn">Add</button>
+        <div style={{ width: '100%', height: '100%', justifyContent: 'center', display: 'flex', backgroundColor: 'green' }}>
+            <div className="TodoWrapper" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <h1>Todo List</h1>
+                <AddTodoModal showModal={showModal} closeModal={closeModal} addTodo={addTodo} />
+                {
+                    showDeleteModal &&
+                    <ConfirmationDialog />
+                }
+                {
+                    todos.length === 0 &&
+                    <div>
+                        <h2 style={{ color: 'white' }}> There is no TODO available</h2>
                     </div>
-                </div>}
-        </div >
+                }
+                {loading ?
+                    <ClipLoader
+                        loading={loading}
+                        size={100}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                        color='white'
+                    /> :
+                    < div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                        {todos.map((todo) =>
+                            <Todo
+                                todo={todo}
+                                deleteTodo={showDeleteConfirmationModel}
+                                enableEditing={(id) => setTodos(todos.map((todoItem) => todoItem._id === id ? { ...todoItem, 'isEditing': true } : todoItem))}
+                                toggleComplete={toggleComplete}
+                            />
+                        )}
+                        <div style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
+                            <button onClick={() => setShowModal(true)} className="todo-btn">Add</button>
+                        </div>
+                    </div>}
+            </div >
+        </div>
     );
 }
 
