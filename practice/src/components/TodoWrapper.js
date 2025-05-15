@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
-import TodoForm from './TodoForm';
+// import TodoForm from './TodoForm';
 import EditTodoForm from './EditTodoForm';
 import Todo from './Todo';
 import AxiosClient from '../Services/AxiosClient';
 import { ClipLoader } from "react-spinners";
+import AddTodoModal from './AddTodoModal';
 
 function TodoWrapper() {
     const [todos, setTodos] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [showModal, setShowModal] = useState(false);
 
     const token = sessionStorage.getItem("authToken");
 
@@ -37,12 +39,12 @@ function TodoWrapper() {
     };
 
     // Add Todo
-    const addTodo = async (title) => {
+    const addTodo = async (title, description) => {
         setLoading(true)
         try {
             const response = await AxiosClient.post('/todo/add', {
                 "title": title,
-                "description": ""
+                "description": description
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
@@ -55,6 +57,10 @@ function TodoWrapper() {
         finally {
             setLoading(false)
         }
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
     };
 
     // Delete Todo
@@ -119,7 +125,8 @@ function TodoWrapper() {
     return (
         <div className="TodoWrapper">
             <h1>Todo List</h1>
-            <TodoForm addTodo={addTodo} />
+            <AddTodoModal showModal={showModal} closeModal={closeModal} addTodo={addTodo} />
+            {/* <TodoForm addTodo={addTodo} /> */}
             {loading &&
                 <ClipLoader
                     loading={loading}
@@ -130,15 +137,15 @@ function TodoWrapper() {
             {error && <p>{error}</p>}
 
             {todos.map((todo) =>
-                todo.isEditing ?
-                    <EditTodoForm editTodo={editTodo} todo={todo} /> :
-                    <Todo
-                        todo={todo}
-                        deleteTodo={deleteTodo}
-                        enableEditing={(id) => setTodos(todos.map((todoItem) => todoItem._id === id ? { ...todoItem, 'isEditing': true } : todoItem))}
-                        toggleComplete={toggleComplete}
-                    />
+                <Todo
+                    todo={todo}
+                    deleteTodo={deleteTodo}
+                    enableEditing={(id) => setTodos(todos.map((todoItem) => todoItem._id === id ? { ...todoItem, 'isEditing': true } : todoItem))}
+                    toggleComplete={toggleComplete}
+                />
+
             )}
+            <button onClick={() => setShowModal(true)} className="todo-btn">Add</button>
         </div>
     );
 }
