@@ -3,12 +3,15 @@ import Todo from './Todo';
 import AxiosClient from '../Services/AxiosClient';
 import { ClipLoader } from "react-spinners";
 import AddTodoModal from './AddTodoModal';
+import ConfirmationDialog from './ConfirmationDialog';
 
 function TodoWrapper() {
     const [todos, setTodos] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [setError] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    // Property - if `true`: will render Confirmation dialog. 
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const token = sessionStorage.getItem("authToken");
 
@@ -60,6 +63,10 @@ function TodoWrapper() {
     const closeModal = () => {
         setShowModal(false);
     };
+
+    const showDeleteConfirmationModel = (id) => {
+        setShowDeleteModal(true)
+    }
 
     // Delete Todo
     const deleteTodo = async (id) => {
@@ -125,6 +132,10 @@ function TodoWrapper() {
             <h1>Todo List</h1>
             <AddTodoModal showModal={showModal} closeModal={closeModal} addTodo={addTodo} />
             {
+                showDeleteModal &&
+                <ConfirmationDialog />
+            }
+            {
                 todos.length === 0 &&
                 <div>
                     <h2 style={{ color: 'white' }}> There is no TODO available</h2>
@@ -142,7 +153,7 @@ function TodoWrapper() {
                     {todos.map((todo) =>
                         <Todo
                             todo={todo}
-                            deleteTodo={deleteTodo}
+                            deleteTodo={showDeleteConfirmationModel}
                             enableEditing={(id) => setTodos(todos.map((todoItem) => todoItem._id === id ? { ...todoItem, 'isEditing': true } : todoItem))}
                             toggleComplete={toggleComplete}
                         />
