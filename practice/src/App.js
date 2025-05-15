@@ -1,41 +1,61 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  BrowserRouter,
+} from "react-router-dom";
 import AuthForm from "./Authentication/AuthForm";
 import Home from "./components/Home";
-import { useEffect, useState } from "react";
 /** Hello Mukul how are you */
 
-const useAuth = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+// const useAuth = () => {
+//   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  useEffect(() => {
-    const token = sessionStorage.getItem("authToken");
-    if (token) {
-      setIsAuthenticated(true);
-    }
-  }, []);
+//   useEffect(() => {
+//     const token = sessionStorage.getItem("authToken");
+//     if (token) {
+//       setIsAuthenticated(true);
+//     }
+//   }, []);
 
-  return isAuthenticated;
+//   return isAuthenticated;
+// };
+
+const PrivateRoute = ({ children }) => {
+  const isAuthenticated = sessionStorage.getItem("authToken");
+  console.log("is authenticated :", isAuthenticated);
+  return isAuthenticated ? children : <Navigate to="/" />;
 };
-
-const onLogout = () => {
-  sessionStorage.clear()
-}
-
-const PrivateRoute = ({ element }) => {
-  const isAuthenticated = useAuth();
-  return isAuthenticated ? element : <Navigate to="/home" />;
+const PublicRoute = ({ children }) => {
+  const isAuthenticated = sessionStorage.getItem("authToken");
+  return !isAuthenticated ? children : <Navigate to="/home" />;
 };
 
 const App = () => {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
-        <Route path="/" element={<AuthForm type="login" />} />
-        <Route path="/signup" element={<AuthForm type="signup" />} />
-        <Route path="/home" element={<PrivateRoute element={<Home onLogout={onLogout} />} />} />
+        <Route
+          path="/"
+          element={
+            <PublicRoute>
+              <AuthForm type="login" />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <PublicRoute>
+              <AuthForm type="signup" />
+            </PublicRoute>
+          }
+        />
+        <Route path="/home" element={<PrivateRoute children={<Home />} />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 };
 
