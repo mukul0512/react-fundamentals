@@ -4,6 +4,7 @@ import AxiosClient from '../Services/AxiosClient';
 import { ClipLoader } from "react-spinners";
 import AddTodoModal from './AddTodoModal';
 import ConfirmationDialog from './ConfirmationDialog';
+import EditTodoModal from './EditTodoModal';
 
 function TodoWrapper() {
     const [todos, setTodos] = useState([]);
@@ -12,6 +13,7 @@ function TodoWrapper() {
     const [selectedTodoId, setSelectedTodoId] = useState(null);
     // Property - if `true`: will render Confirmation dialog. 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [selectedTodo, setSelectedTodo] = useState(null);
 
     const token = sessionStorage.getItem("authToken");
 
@@ -65,18 +67,6 @@ function TodoWrapper() {
         setShowModal(false);
     };
 
-    const showDeleteConfirmationModel = (id) => {
-        setSelectedTodoId(id)
-        console.log("showing ", id);
-
-        setShowDeleteModal(true)
-    }
-
-    const closeDeleteConfirmationModel = () => {
-        setSelectedTodoId(null)
-        setShowDeleteModal(false)
-    }
-
     // Delete Todo
     const deleteTodo = async () => {
         setLoading(true)
@@ -98,6 +88,18 @@ function TodoWrapper() {
             setLoading(false)
         }
     };
+
+    const showDeleteConfirmationModel = (id) => {
+        setSelectedTodoId(id)
+        console.log("showing ", id);
+
+        setShowDeleteModal(true)
+    }
+
+    const closeDeleteConfirmationModel = () => {
+        setSelectedTodoId(null)
+        setShowDeleteModal(false)
+    }
 
     // updateTodo
     const updateTodoHandler = async (updates, todo, afterUpdate = (t) => t) => {
@@ -136,6 +138,10 @@ function TodoWrapper() {
         }));
     };
 
+    const closeEditTodoModal = () => {
+        setSelectedTodo(false);
+    }
+
     return (
         <div style={{ width: '100%', height: '100%', justifyContent: 'center', display: 'flex', backgroundColor: 'green' }}>
             <div className="TodoWrapper" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -155,6 +161,18 @@ function TodoWrapper() {
                         }}
                     />
                 }
+
+                {selectedTodo && (
+                    <EditTodoModal
+                        todo={selectedTodo}
+                        editTodo={(updatedTodo) => {
+                            editTodo(updatedTodo.title, updatedTodo);
+                            closeEditTodoModal();
+                        }}
+                        onCancel={closeEditTodoModal}
+                    />
+                )}
+
                 {
                     todos.length === 0 &&
                     <div>
@@ -174,7 +192,11 @@ function TodoWrapper() {
                             <Todo
                                 todo={todo}
                                 deleteTodo={showDeleteConfirmationModel}
-                                enableEditing={(id) => setTodos(todos.map((todoItem) => todoItem._id === id ? { ...todoItem, 'isEditing': true } : todoItem))}
+                                enableEditing={(id) => {
+                                    const todoToEdit = todos.find((t) => t._id === id);
+                                    setSelectedTodo(todoToEdit);
+                                    setSelectedTodo(true);
+                                }}
                                 toggleComplete={toggleComplete}
                             />
                         )}
