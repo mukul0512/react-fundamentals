@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function EditTodoModal({ editTodo, todo, onCancel }) {
+function EditTodoModal({ editTodo, todo, closeEditTodoModal }) {
     const [title, setTitle] = useState(todo.title);
     const [description, setDescription] = useState(todo.description);
 
@@ -23,8 +23,10 @@ function EditTodoModal({ editTodo, todo, onCancel }) {
                 onChange={(e) => setDescription(e.target.value)}
                 className="todo-input"
                 placeholder="Edit description" />
-            <button onClick={onCancel} type="submit" className="todo-btn">Cancel</button>
-            <button type="submit" className="todo-btn">Save</button>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                <button onClick={closeEditTodoModal} type="submit" className="todo-btn">Cancel</button>
+                <button type="submit" className="todo-btn">Save</button>
+            </div>
         </form>
     )
 }
