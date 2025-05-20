@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Todo from './Todo';
-import AxiosClient from '../Services/AxiosClient';
+import AxiosClient from '../services/AxiosClient';
 import { ClipLoader } from "react-spinners";
 import AddTodoModal from './AddTodoModal';
 import ConfirmationDialog from './ConfirmationDialog';

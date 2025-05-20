@@ -4,7 +4,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import "../../index.css";
 import { FaGoogle, FaFacebookF } from "react-icons/fa";
-import AxiosClient from "../../Services/AxiosClient";
+import AxiosClient from "../../services/AxiosClient";
+import cardImg from "../../assets/images/Card.png"
 
 const AuthForm = ({ type }) => {
     const isLogin = type === "login";
@@ -158,7 +159,7 @@ const AuthForm = ({ type }) => {
                     <button className="learn-more">Learn more</button>
                     <div className="card-image">
                         <img
-                            src="../Images/Card 2.png"
+                            src={cardImg}
                             alt="cardImg"
                         />
                     </div>
