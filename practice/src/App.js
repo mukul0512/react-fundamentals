@@ -1,37 +1,9 @@
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-  BrowserRouter,
-} from "react-router-dom";
-import AuthForm from "./Authentication/AuthForm";
-import Home from "./components/Home";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AuthForm from "./pages/signup/AuthForm";
+import Home from "./pages/home";
+import { PrivateRoute, PublicRoute } from "./routes";
 /** Hello Mukul how are you */
-
-// const useAuth = () => {
-//   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-//   useEffect(() => {
-//     const token = sessionStorage.getItem("authToken");
-//     if (token) {
-//       setIsAuthenticated(true);
-//     }
-//   }, []);
-
-//   return isAuthenticated;
-// };
-
-const PrivateRoute = ({ children }) => {
-  const isAuthenticated = sessionStorage.getItem("authToken");
-  console.log("is authenticated :", isAuthenticated);
-  return isAuthenticated ? children : <Navigate to="/" />;
-};
-const PublicRoute = ({ children }) => {
-  const isAuthenticated = sessionStorage.getItem("authToken");
-  return !isAuthenticated ? children : <Navigate to="/home" />;
-};
 
 const App = () => {
   return (

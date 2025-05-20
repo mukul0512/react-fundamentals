@@ -1,4 +1,4 @@
-import AuthForm from "./AuthForm";
+import AuthForm from "../signup/AuthForm";
 
 const Login = () => <AuthForm type="login" />;
 

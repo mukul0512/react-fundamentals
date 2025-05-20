@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import "../index.css";
+import "../../index.css";
 import { FaGoogle, FaFacebookF } from "react-icons/fa";
-import AxiosClient from "../Services/AxiosClient";
+import AxiosClient from "../../Services/AxiosClient";
 
 const AuthForm = ({ type }) => {
     const isLogin = type === "login";

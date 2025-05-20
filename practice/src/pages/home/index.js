@@ -1,6 +1,6 @@
 import { useState } from "react";
-import ConfirmationDialog from "./ConfirmationDialog";
-import TodoWrapper from "./TodoWrapper";
+import ConfirmationDialog from "../../components/ConfirmationDialog";
+import TodoWrapper from "../../components/TodoWrapper";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
@@ -45,6 +45,7 @@ function Home() {
         </button>
       </div>
       <TodoWrapper />
+
     </div>
   );
 }
