@@ -5,9 +5,15 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 function Todo({ todo, deleteTodo, enableEditing, toggleComplete }) {
     return (
         <div style={styles.container}>
-            <div>
-                <p>{todo.title}</p>
-                <p style={{ display: 'flex', color: 'gray', fontSize: 13 }}>{todo.description}</p>
+            <input
+                type="checkbox"
+                checked={todo.completed}
+                onChange={() => toggleComplete(todo)}
+                style={{ marginRight: '10px' }}
+            />
+            <div style={{ flexGrow: 1 }}>
+                <p style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>{todo.title}</p>
+                <p style={{ display: 'flex', color: 'gray', fontSize: 13, textDecoration: todo.completed ? 'line-through' : 'none' }}>{todo.description}</p>
             </div>
             <div style={styles.buttonContainer}>
                 <FontAwesomeIcon style={{ ...styles.actionButtonStyle, color: 'green' }} className="edit-icon" icon={faPenToSquare} onClick={() => enableEditing(todo._id)} />

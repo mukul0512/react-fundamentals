@@ -130,16 +130,9 @@ function TodoWrapper() {
         updateTodoHandler({ completed: !todo.completed }, todo);
     };
 
-    // Update Todo
-    const editTodo = (newTitle, todo) => {
-        updateTodoHandler({ title: newTitle }, todo, (updated) => ({
-            ...updated,
-            isEditing: false,
-        }));
-    };
-
+    // Close Edit Todo Modal
     const closeEditTodoModal = () => {
-        setSelectedTodo(false);
+        setSelectedTodo(null);
     }
 
     return (
@@ -166,10 +159,10 @@ function TodoWrapper() {
                     <EditTodoModal
                         todo={selectedTodo}
                         editTodo={(updatedTodo) => {
-                            editTodo(updatedTodo.title, updatedTodo);
+                            updateTodoHandler({ title: updatedTodo.title, description: updatedTodo.description }, updatedTodo);
                             closeEditTodoModal();
                         }}
-                        onCancel={closeEditTodoModal}
+                        closeEditTodoModal={closeEditTodoModal}
                     />
                 )}
 
@@ -195,7 +188,6 @@ function TodoWrapper() {
                                 enableEditing={(id) => {
                                     const todoToEdit = todos.find((t) => t._id === id);
                                     setSelectedTodo(todoToEdit);
-                                    setSelectedTodo(true);
                                 }}
                                 toggleComplete={toggleComplete}
                             />
