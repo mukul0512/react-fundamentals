@@ -2,16 +2,37 @@ import { useState } from "react";
 import ConfirmationDialog from "../../components/ConfirmationDialog";
 import TodoWrapper from "../../components/TodoWrapper";
 import { useNavigate } from "react-router-dom";
+import AxiosClient from "../../services/AxiosClient";
 
 function Home() {
   const navigate = useNavigate();
-  const onLogout = () => {
+  const [showLogoutConfirmationDialog, setShowLogoutConfirmationDialog] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const onLogout = async () => {
     console.log("logout called");
-    sessionStorage.clear();
-    navigate("/");
+    setLoading(true);
+    const token = sessionStorage.getItem("authToken");
+    try {
+      await AxiosClient.patch(
+        "/logout",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      sessionStorage.clear();
+      navigate("/");
+    } catch (error) {
+      console.error("Logout failed:", error);
+      alert("Logout failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
-  const [showLogoutConfirmationDialog, setShowLogoutConfirmationDialog] =
-    useState(false);
+
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
       {showLogoutConfirmationDialog && (
@@ -26,6 +47,7 @@ function Home() {
           confirmAction={() => {
             onLogout();
           }}
+          disabled={loading}
         />
       )}
 
