@@ -16,7 +16,7 @@ function Home() {
     console.log(token);
     if (!token) {
       console.error("No token found, cannot logout.");
-      alert("You are not logged in.");
+      alert("You are not logged out.");
       setLoading(false);
       return;
     }
