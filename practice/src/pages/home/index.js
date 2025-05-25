@@ -13,6 +13,13 @@ function Home() {
     console.log("logout called");
     setLoading(true);
     const token = sessionStorage.getItem("authToken");
+    console.log(token);
+    if (!token) {
+      console.error("No token found, cannot logout.");
+      alert("You are not logged in.");
+      setLoading(false);
+      return;
+    }
     try {
       await AxiosClient.patch(
         "/logout",
